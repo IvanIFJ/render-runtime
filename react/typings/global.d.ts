@@ -432,14 +432,6 @@ declare global {
     canonicalBaseAddress: string
   }
 
-  // interface DeviceHints {
-  //   desktop: boolean
-  //   mobile: boolean
-  //   phone: boolean
-  //   tablet: boolean
-  //   unknown: boolean
-  // }
-
   interface RenderRuntime {
     amp: boolean
     account: string
@@ -492,7 +484,6 @@ declare global {
       variables: any
       data: string
     }>
-    fidelis: any
   }
 
   interface CacheHints {
