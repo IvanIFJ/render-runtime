@@ -90,7 +90,7 @@ declare global {
   }
 
   interface Extensions {
-    [name: string]: Extension?
+    [name: string]: ?Extension
   }
 
   interface LogEvent {
@@ -191,6 +191,7 @@ declare global {
     mobile: boolean
     tablet: boolean
     phone: boolean
+    unknown: boolean
   }
 
   interface RenderContext {
@@ -243,6 +244,7 @@ declare global {
     updateExtension: (name: string, extension: Extension) => Promise<void>
     updateRuntime: (options?: PageContextOptions) => Promise<void>
     workspace: RenderRuntime['workspace']
+    navigationRouteModifiers: Set<NavigationRouteModifier>
   }
 
   interface PageContextOptions {
@@ -252,8 +254,10 @@ declare global {
     template?: string
   }
 
+  type ApolloClientType = ApolloClient<NormalizedCacheObject>
+
   interface FetchRoutesInput extends PageContextOptions {
-    apolloClient: ApolloClient<NormalizedCacheObject>
+    apolloClient: ApolloClientType
     locale: string
     page: string
     paramsJSON?: string
@@ -263,7 +267,7 @@ declare global {
   }
 
   interface FetchDefaultPages {
-    apolloClient: ApolloClient<NormalizedCacheObject>
+    apolloClient: ApolloClientType
     locale: string
     pages: Pages
     routeIds: string[]
@@ -271,7 +275,7 @@ declare global {
   }
 
   interface FetchNavigationDataInput {
-    apolloClient: ApolloClient<NormalizedCacheObject>
+    apolloClient: ApolloClientType
     production: boolean
     locale: string
     routeId: string
@@ -280,7 +284,7 @@ declare global {
     path?: string
     renderMajor: number
     skipCache: boolean
-    query: string
+    query?: string
   }
 
   interface RenderComponent<P = {}, S = {}> {
@@ -356,6 +360,7 @@ declare global {
     route: MatchingServerPage
     settings: RenderRuntime['settings']
     queryData: RenderRuntime['queryData']
+    page: string
   }
 
   interface PageQueryResponse {
@@ -427,6 +432,14 @@ declare global {
     canonicalBaseAddress: string
   }
 
+  // interface DeviceHints {
+  //   desktop: boolean
+  //   mobile: boolean
+  //   phone: boolean
+  //   tablet: boolean
+  //   unknown: boolean
+  // }
+
   interface RenderRuntime {
     amp: boolean
     account: string
@@ -442,7 +455,7 @@ declare global {
     workspace: string
     disableSSR: boolean
     disableSSQ: boolean
-    hints: any
+    hints: RenderHints
     introspectionResult: IntrospectionResultData
     inspect: boolean
     page: string
@@ -479,6 +492,7 @@ declare global {
       variables: any
       data: string
     }>
+    fidelis: any
   }
 
   interface CacheHints {
@@ -596,6 +610,22 @@ declare global {
   type Hydration = 'always' | 'on-view'
   type BlockContentTree = Record<string, TreeEntry>
   type Blocks = Record<string, BlockEntry>
+
+  interface PrefetchRouteData {
+    extensions: RenderRuntime['extensions']
+    components: RenderRuntime['components']
+    messages: RenderRuntime['messages']
+  }
+
+  interface ContentResponse {
+    contentMapJSON: string
+    extensionsContent: {
+      contentJSON: string
+      contentIds: string[]
+      treePath: string
+    }[]
+    userMessages: RenderRuntime['messages']
+  }
 
   namespace NodeJS {
     interface Global extends Window {
