@@ -115,7 +115,7 @@ declare global {
     params?: any
     theme?: string
     disableExternals?: string[]
-    declarer?: string
+    declarer?: string | null
     name?: string
     title?: string
     conditional?: boolean
@@ -279,7 +279,7 @@ declare global {
     production: boolean
     locale: string
     routeId: string
-    declarer?: string
+    declarer?: string | null
     paramsJSON?: string
     path?: string
     renderMajor: number
