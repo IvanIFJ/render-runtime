@@ -615,7 +615,7 @@ declare global {
       contentIds: string[]
       treePath: string
     }[]
-    userMessages: RenderRuntime['messages']
+    contentMessages: RenderRuntime['messages']
   }
 
   namespace NodeJS {
